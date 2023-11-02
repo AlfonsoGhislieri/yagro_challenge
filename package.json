@@ -4,18 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch --coverage"
+    "test": "c8 --all mocha",
+    "test:watch": "mocha --watch --parallel"
   },
   "type": "module",
-  "jest": {
-    "transform": {},
-    "testEnvironment": "jest-environment-node",
-    "collectCoverage": true
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "jest": "^29.7.0"
+  "devDependencies": {
+    "c8": "^8.0.1",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "sinon": "^17.0.1"
   }
 }
