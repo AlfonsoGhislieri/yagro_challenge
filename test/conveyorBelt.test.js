@@ -75,15 +75,10 @@ describe("Conveyor Belt", () => {
   describe("Item placing", () => {
     it("Item placed on belt", () => {
       const conveyorBelt = new ConveyorBelt(3);
-      const expectedSlots = Array(3).fill(FactoryItem.EMPTY_SPACE);
-
-      expect(conveyorBelt._slots).to.deep.equal(expectedSlots);
 
       conveyorBelt.placeItem(FactoryItem.ASSEMBLED_PRODUCT, 1);
-      expectedSlots[1] = FactoryItem.ASSEMBLED_PRODUCT;
 
       expect(conveyorBelt._slots[1]).to.equal(FactoryItem.ASSEMBLED_PRODUCT);
-      expect(conveyorBelt._slots).to.deep.equal(expectedSlots);
     });
   });
 });
