@@ -1,36 +1,40 @@
-import { Worker } from "../src/worker";
-import { WorkerStatus, FactoryItem } from "../src/utils/utility";
+import { Worker } from "../src/worker.js";
+import { WorkerStatus, FactoryItem } from "../src/utils/utility.js";
+import { expect } from "chai";
 
 describe("Worker", () => {
   describe("Initialisation", () => {
     it("Initialises with correct parameters", () => {
       const worker = new Worker();
 
-      expect(worker._status).toEqual(WorkerStatus.WORKING);
-      expect(worker._inventory).toEqual([]);
-      expect(worker._assembly_time).toEqual(0);
+      expect(worker._status).to.equal(WorkerStatus.WORKING);
+      expect(worker._inventory).to.deep.equal([]);
+      expect(worker._assembly_time).to.equal(0);
     });
   });
 
   describe("Checks if item is needed", () => {
-    it.each([
+    const testCases = [
       [true, FactoryItem.COMPONENT_A, []],
-      [true, FactoryItem.COMPONENT_A, FactoryItem.COMPONENT_B],
-      [false, FactoryItem.COMPONENT_A, FactoryItem.COMPONENT_A],
+      [true, FactoryItem.COMPONENT_A, [FactoryItem.COMPONENT_B]],
+      [false, FactoryItem.COMPONENT_A, [FactoryItem.COMPONENT_A]],
       [
         false,
         FactoryItem.COMPONENT_B,
         FactoryItem.ASSEMBLED_PRODUCT.requiredComponents,
       ],
-    ])(
-      "Returns %p for item %p with worker inventory %p",
-      (isItemNeeded, item, workerInventory) => {
+    ];
+
+    testCases.forEach(([isItemNeeded, item, workerInventory]) => {
+      it(`Returns ${isItemNeeded} for item ${item} with worker inventory ${JSON.stringify(
+        workerInventory
+      )}`, () => {
         const worker = new Worker();
         worker._inventory = workerInventory;
 
-        expect(worker.isItemNeeded(item)).toEqual(isItemNeeded);
-      }
-    );
+        expect(worker.isItemNeeded(item)).to.equal(isItemNeeded);
+      });
+    });
   });
 
   describe("Item pick up", () => {
@@ -38,8 +42,8 @@ describe("Worker", () => {
       const worker = new Worker();
       worker.pickupItem(FactoryItem.COMPONENT_A);
 
-      expect(worker._inventory.length).toEqual(1);
-      expect(worker._status).toEqual(WorkerStatus.WORKING);
+      expect(worker._inventory.length).to.equal(1);
+      expect(worker._status).to.equal(WorkerStatus.WORKING);
     });
 
     it("Worker picks up both components", () => {
@@ -47,31 +51,32 @@ describe("Worker", () => {
       worker.pickupItem(FactoryItem.COMPONENT_B);
       worker.pickupItem(FactoryItem.COMPONENT_A);
 
-      expect(worker._inventory.length).toEqual(2);
-      expect(worker._status).toEqual(WorkerStatus.ASSEMBLING);
-      expect(worker._assembly_time).toEqual(
+      expect(worker._inventory.length).to.equal(2);
+      expect(worker._status).to.equal(WorkerStatus.ASSEMBLING);
+      expect(worker._assembly_time).to.equal(
         FactoryItem.ASSEMBLED_PRODUCT.assemblyTime
       );
     });
   });
 
   describe("Item assembly", () => {
-    it.each([
+    const testCases = [
       [3, WorkerStatus.ASSEMBLING, []],
       [2, WorkerStatus.ASSEMBLING, []],
       [1, WorkerStatus.READY_TO_PLACE, [FactoryItem.ASSEMBLED_PRODUCT]],
-    ])(
-      "Assembles item with timer of %i and changes status to %p",
-      (timer, expectedStatus, expectedInventory) => {
+    ];
+
+    testCases.forEach(([timer, expectedStatus, expectedInventory]) => {
+      it(`Assembles item with timer of ${timer} and changes status to ${expectedStatus}`, () => {
         const worker = new Worker();
         worker._status = WorkerStatus.ASSEMBLING;
         worker._assembly_time = timer;
         worker.assembleItem();
 
-        expect(worker._status).toEqual(expectedStatus);
-        expect(worker._inventory).toEqual(expectedInventory);
-      }
-    );
+        expect(worker._status).to.equal(expectedStatus);
+        expect(worker._inventory).to.deep.equal(expectedInventory);
+      });
+    });
   });
 
   describe("Release assembled item", () => {
@@ -82,9 +87,9 @@ describe("Worker", () => {
 
       worker.placeAssembledItem();
 
-      expect(worker._status).toEqual(WorkerStatus.WORKING);
-      expect(worker._inventory).toEqual([]);
-      expect(worker._assembly_time).toEqual(0);
+      expect(worker._status).to.equal(WorkerStatus.WORKING);
+      expect(worker._inventory).to.deep.equal([]);
+      expect(worker._assembly_time).to.equal(0);
     });
   });
 });

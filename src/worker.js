@@ -1,4 +1,4 @@
-import { WorkerStatus, FactoryItem } from "./utils/utility";
+import { WorkerStatus, FactoryItem } from "./utils/utility.js";
 
 const requiredComponents = FactoryItem.ASSEMBLED_PRODUCT.requiredComponents;
 const assemblyTime = FactoryItem.ASSEMBLED_PRODUCT.assemblyTime;
@@ -29,12 +29,13 @@ export class Worker {
   };
 
   assembleItem = () => {
+    // reduces assembly time by 1 unit of time, if 0 worker gets assembled product
     this._assembly_time -= 1;
 
     if (this._assembly_time === 0) {
-      this._status = WorkerStatus.READY_TO_PLACE;
       this._inventory = [];
       this._inventory.push(FactoryItem.ASSEMBLED_PRODUCT);
+      this._status = WorkerStatus.READY_TO_PLACE;
     }
   };
 
