@@ -1,3 +1,4 @@
+// TODO: Create a FactoryItem class, storing values eg: canBePickedUp, name, assembly time ...
 export const FactoryItem = {
   EMPTY_SPACE: "EMPTY_SPACE",
   COMPONENT_A: "COMPONENT_A",

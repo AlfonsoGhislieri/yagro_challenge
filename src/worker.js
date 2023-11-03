@@ -4,10 +4,11 @@ const requiredComponents = FactoryItem.ASSEMBLED_PRODUCT.requiredComponents;
 const assemblyTime = FactoryItem.ASSEMBLED_PRODUCT.assemblyTime;
 
 export class Worker {
-  constructor() {
+  constructor(inventoryCapacity = 2) {
     this._status = WorkerStatus.WORKING;
     this._inventory = [];
     this._assembly_time = 0;
+    this._inventoryCapacity = inventoryCapacity;
   }
 
   isItemNeeded = (item) => {
@@ -16,6 +17,14 @@ export class Worker {
       return true;
     }
     return false;
+  };
+
+  isInventoryFull = () => {
+    return this._inventory.length >= this._inventoryCapacity;
+  };
+
+  isReadyToPlace = () => {
+    return this._status === WorkerStatus.READY_TO_PLACE;
   };
 
   pickupItem = (item) => {

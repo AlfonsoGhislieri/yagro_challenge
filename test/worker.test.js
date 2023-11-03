@@ -37,6 +37,40 @@ describe("Worker", () => {
     });
   });
 
+  describe("Checks worker inventory capacity", () => {
+    const testCases = [
+      [false, [FactoryItem.COMPONENT_A]],
+      [true, [FactoryItem.COMPONENT_A, FactoryItem.ASSEMBLED_PRODUCT]],
+    ];
+
+    testCases.forEach(([expected, workerInventory]) => {
+      it(`Returns ${expected} for inventory size of ${workerInventory.length}`, () => {
+        const maxInventoryCapacity = 2;
+        const worker = new Worker(maxInventoryCapacity);
+        worker._inventory = workerInventory;
+
+        expect(worker.isInventoryFull()).to.equal(expected);
+      });
+    });
+  });
+
+  describe("Checks worker is ready to place", () => {
+    const testCases = [
+      [false, WorkerStatus.ASSEMBLING],
+      [false, WorkerStatus.WORKING],
+      [true, WorkerStatus.READY_TO_PLACE],
+    ];
+
+    testCases.forEach(([expected, workerStatus]) => {
+      it(`Returns ${expected} if worker is ${workerStatus}`, () => {
+        const worker = new Worker();
+        worker._status = workerStatus;
+
+        expect(worker.isReadyToPlace()).to.equal(expected);
+      });
+    });
+  });
+
   describe("Item pick up", () => {
     it("Worker picks up single component", () => {
       const worker = new Worker();
