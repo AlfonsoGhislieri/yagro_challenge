@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "c8 --all mocha",
+    "test": "c8 mocha",
     "test:watch": "mocha --watch --parallel"
   },
   "type": "module",
