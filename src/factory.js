@@ -90,6 +90,10 @@ export class Factory {
     }
   };
 
+  getDroppedItems = () => {
+    return this._droppedItems;
+  };
+
   _handleAssemblingWorkers = (workers) => {
     for (const worker of workers) {
       if (worker._status === WorkerStatus.ASSEMBLING) {
