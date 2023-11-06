@@ -23,9 +23,7 @@ export class Factory {
     const conveyorBelt = this._conveyorBelt;
 
     const lastItem = conveyorBelt.moveBeltForward();
-    if (lastItem !== FactoryItem.EMPTY_SPACE) {
-      this._droppedItems[lastItem] = (this._droppedItems[lastItem] || 0) + 1;
-    }
+    this._collectDroppedItem(lastItem);
 
     conveyorBelt._slots.forEach((item, index) => {
       const [worker1, worker2] = this._workerPairs[index];
@@ -100,6 +98,12 @@ export class Factory {
     }
 
     return true;
+  };
+
+  _collectDroppedItem = (item) => {
+    if (item !== FactoryItem.EMPTY_SPACE) {
+      this._droppedItems[item.name] = (this._droppedItems[item.name] || 0) + 1;
+    }
   };
 
   _handleAssemblingWorkers = (...workers) => {

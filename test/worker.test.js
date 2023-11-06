@@ -21,14 +21,16 @@ describe("Worker", () => {
       [
         false,
         FactoryItem.COMPONENT_B,
-        FactoryItem.ASSEMBLED_PRODUCT.requiredComponents,
+        [FactoryItem.COMPONENT_B, FactoryItem.COMPONENT_B],
       ],
+      [true, FactoryItem.COMPONENT_B, [FactoryItem.ASSEMBLED_PRODUCT]],
+      [true, FactoryItem.COMPONENT_A, [FactoryItem.ASSEMBLED_PRODUCT]],
     ];
 
     testCases.forEach(([isItemNeeded, item, workerInventory]) => {
-      it(`Returns ${isItemNeeded} for item ${item} with worker inventory ${JSON.stringify(
-        workerInventory
-      )}`, () => {
+      it(`Returns ${isItemNeeded} for item ${
+        item.name
+      } with worker inventory ${JSON.stringify(workerInventory)}`, () => {
         const worker = new Worker();
         worker._inventory = workerInventory;
 

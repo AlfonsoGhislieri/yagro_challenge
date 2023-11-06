@@ -1,9 +1,14 @@
 // TODO: Create a FactoryItem class, storing values eg: canBePickedUp, name, assembly time ...
 export const FactoryItem = {
-  EMPTY_SPACE: "EMPTY_SPACE",
-  COMPONENT_A: "COMPONENT_A",
-  COMPONENT_B: "COMPONENT_B",
+  EMPTY_SPACE: { name: "EMPTY_SPACE" },
+  COMPONENT_A: {
+    name: "COMPONENT_A",
+  },
+  COMPONENT_B: {
+    name: "COMPONENT_B",
+  },
   ASSEMBLED_PRODUCT: {
+    name: "ASSEMBLED_PRODUCT",
     requiredComponents: ["COMPONENT_A", "COMPONENT_B"],
     assemblyTime: 3,
   },

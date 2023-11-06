@@ -13,7 +13,10 @@ export class Worker {
 
   isItemNeeded = (item) => {
     // Checks if item is valid and worker doesn't already have it
-    if (requiredComponents.includes(item) && !this._inventory.includes(item)) {
+    if (
+      requiredComponents.includes(item.name) &&
+      !this._inventory.includes(item)
+    ) {
       return true;
     }
     return false;
@@ -31,9 +34,16 @@ export class Worker {
     // Item added to inventory and begin assembling if valid components are in inventory
     this._inventory.push(item);
 
-    if (requiredComponents.every((el) => this._inventory.includes(el))) {
+    // Check if all required components are in the inventory
+    const hasAllComponents = requiredComponents.every((componentName) =>
+      this._inventory.some(
+        (inventoryItem) => inventoryItem.name === componentName
+      )
+    );
+
+    if (hasAllComponents) {
       this._status = WorkerStatus.ASSEMBLING;
-      this._assembly_time = assemblyTime;
+      this._assembly_time = FactoryItem.ASSEMBLED_PRODUCT.assemblyTime;
     }
   };
 

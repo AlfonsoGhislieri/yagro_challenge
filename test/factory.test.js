@@ -262,19 +262,10 @@ describe("Factory", () => {
       const factory = new Factory({ conveyorBeltLength: 1 });
 
       // TODO
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
-      factory.resolveOneStep();
+      for (let i = 0; i < 100; i++) {
+        factory.resolveOneStep();
+      }
+      console.log(factory._droppedItems);
     });
   });
 });
