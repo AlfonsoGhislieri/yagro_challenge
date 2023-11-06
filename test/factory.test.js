@@ -80,7 +80,7 @@ describe("Factory", () => {
             factory
           );
 
-          factory.handleEmptySpace([worker1, worker2], 0);
+          factory._handleEmptySpace([worker1, worker2], 0);
 
           workerToExpectCall === "worker1"
             ? expect(placeItemSpy1.calledOnce).to.be.true
@@ -97,7 +97,7 @@ describe("Factory", () => {
       worker1._status = WorkerStatus.WORKING;
       worker2._status = WorkerStatus.WORKING;
 
-      factory.handleEmptySpace([worker1, worker2], 0);
+      factory._handleEmptySpace([worker1, worker2], 0);
 
       expect(placeItemSpy1.called).to.be.false;
       expect(placeItemSpy2.called).to.be.false;
@@ -212,7 +212,7 @@ describe("Factory", () => {
             .onSecondCall()
             .returns(worker2WantsItem);
 
-          factory.handleItemPickUp([worker1, worker2], slotIndex);
+          factory._handleItemPickUp([worker1, worker2], slotIndex);
 
           workerToExpectCall === "worker1"
             ? expect(pickItemSpy1.calledOnce).to.be.true
@@ -232,7 +232,7 @@ describe("Factory", () => {
         .onSecondCall()
         .returns(false);
 
-      factory.handleItemPickUp([worker1, worker2], 0);
+      factory._handleItemPickUp([worker1, worker2], 0);
 
       expect(pickItemSpy1.calledOnce).to.be.false;
       expect(pickItemSpy2.calledOnce).to.be.false;

@@ -34,14 +34,14 @@ export class Factory {
       const workerPair = this._workerPairs[index];
 
       if (conveyorBelt.getItemAtIndex(index) === FactoryItem.EMPTY_SPACE) {
-        this.handleEmptySpace(workerPair, index);
+        this._handleEmptySpace(workerPair, index);
       } else {
-        this.handleItemPickUp(workerPair, index);
+        this._handleItemPickUp(workerPair, index);
       }
     });
   };
 
-  handleEmptySpace = (workers, slotIndex) => {
+  _handleEmptySpace = (workers, slotIndex) => {
     // Selects the worker and places item on the conveyor belt if possible
     this._handleAssemblingWorkers(workers);
 
@@ -54,7 +54,7 @@ export class Factory {
     }
   };
 
-  handleItemPickUp = (workers, slotIndex) => {
+  _handleItemPickUp = (workers, slotIndex) => {
     this._handleAssemblingWorkers(workers);
 
     const validWorkers = workers.filter((worker) =>
