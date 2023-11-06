@@ -81,4 +81,18 @@ describe("Conveyor Belt", () => {
       expect(conveyorBelt._slots[1]).to.equal(FactoryItem.ASSEMBLED_PRODUCT);
     });
   });
+
+  describe("Gets item at index", () => {
+    it("Item correctly returned for given index", () => {
+      const conveyorBelt = new ConveyorBelt(3);
+      const index = 2;
+      const item = FactoryItem.COMPONENT_B;
+
+      conveyorBelt._slots[index] = item;
+
+      const returnedItem = conveyorBelt.getItemAtIndex(index);
+
+      expect(returnedItem).to.equal(item);
+    });
+  });
 });

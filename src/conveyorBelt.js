@@ -14,17 +14,19 @@ export class ConveyorBelt {
     return lastItem;
   };
 
-  placeItem(item, slotIndex) {
-    // Places item on the belt at the specified slot
+  placeItem = (item, slotIndex) => {
     this._slots[slotIndex] = item;
-  }
+  };
 
-  removeItem(slotIndex) {
-    // Remove an item from the specified slot on the belt
+  getItemAtIndex = (slotIndex) => {
+    return this._slots[slotIndex];
+  };
+
+  removeItem = (slotIndex) => {
     const item = this._slots[slotIndex];
     this._slots[slotIndex] = FactoryItem.EMPTY_SPACE;
     return item;
-  }
+  };
 
   _getRandomFactoryItem = () => {
     // Get random Factory item that is not an assembled product

@@ -238,4 +238,29 @@ describe("Factory", () => {
       expect(conveyorBeltRemoveSpy.calledOnce).to.be.false;
     });
   });
+
+  describe("Handle Assembling", () => {
+    it("Correctly calls assembleItem function", () => {
+      const factory = new Factory();
+      const [worker1, worker2] = factory._workerPairs[0];
+      worker1._status = WorkerStatus.ASSEMBLING;
+      worker2._status = WorkerStatus.READY_TO_PLACE;
+
+      const assembleItemSpyWorker1 = sinon.spy(worker1, "assembleItem");
+      const assembleItemSpyWorker2 = sinon.spy(worker2, "assembleItem");
+
+      factory._handleAssemblingWorkers(worker1, worker2);
+
+      expect(assembleItemSpyWorker1.calledOnce).to.be.true;
+      expect(assembleItemSpyWorker2.calledOnce).to.be.false;
+    });
+  });
+
+  describe("ResolveOneStep", () => {
+    it("", () => {
+      const factory = new Factory({ conveyorBeltLength: 1 });
+
+      // TODO
+    });
+  });
 });

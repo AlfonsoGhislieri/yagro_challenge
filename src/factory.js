@@ -18,20 +18,27 @@ export class Factory {
     ]);
   }
 
-  // TODO
-  // resolveOneStep = () => {
-  //   const conveyorBelt = this._conveyorBelt;
+  resolveOneStep = () => {
+    const conveyorBelt = this._conveyorBelt;
 
-  //   conveyorBelt.moveBeltForward();
+    const lastItem = conveyorBelt.moveBeltForward();
 
-  //   conveyorBelt._slots.forEach((item, index) => {
-  //     console.log(item, index);
-  //   });
-  // };
+    conveyorBelt._slots.forEach((item, index) => {
+      const [worker1, worker2] = this._workerPairs[index];
+
+      if (conveyorBelt.getItemAtIndex(index) == FactoryItem.EMPTY_SPACE) {
+        this.handleEmptySpace(worker1, worker2, index);
+      } else {
+        this.handleItemPickUp(worker1, worker2, index);
+      }
+    });
+  };
 
   handleEmptySpace = (worker1, worker2, slotIndex) => {
     // Selects the worker and places item on the conveyor belt if possible
     let selectedWorker;
+
+    this._handleAssemblingWorkers(worker1, worker2);
     // If neither worker is ready to place return
     if (!(worker1.isReadyToPlace() || worker2.isReadyToPlace())) {
       return;
@@ -51,6 +58,8 @@ export class Factory {
   };
 
   handleItemPickUp = (worker1, worker2, slotIndex) => {
+    this._handleAssemblingWorkers(worker1, worker2);
+
     // Selects the worker and picks up item on the conveyor belt if possible
     let selectedWorker;
     const worker1CanPickup = this._isItemPickupPossible(worker1, slotIndex);
@@ -69,7 +78,7 @@ export class Factory {
         : (selectedWorker = worker2);
     }
 
-    selectedWorker.pickupItem(this._conveyorBelt._slots[slotIndex]);
+    selectedWorker.pickupItem(this._conveyorBelt.getItemAtIndex(slotIndex));
     this._conveyorBelt.removeItem(slotIndex);
   };
 
@@ -82,11 +91,19 @@ export class Factory {
       return false;
     }
 
-    if (!worker.isItemNeeded(this._conveyorBelt._slots[slotIndex])) {
+    if (!worker.isItemNeeded(this._conveyorBelt.getItemAtIndex(slotIndex))) {
       return false;
     }
 
     return true;
+  };
+
+  _handleAssemblingWorkers = (...workers) => {
+    for (const worker of workers) {
+      if (worker._status === WorkerStatus.ASSEMBLING) {
+        worker.assembleItem();
+      }
+    }
   };
 
   _randomlySelectWorker = (...workers) => {
