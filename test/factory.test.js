@@ -25,6 +25,7 @@ describe("Factory", () => {
       allWorkers.forEach((worker) => {
         expect(worker).to.be.an.instanceof(Worker);
       });
+      expect(factory._droppedItems).to.be.an.instanceOf(Object);
     });
   });
 
@@ -261,6 +262,19 @@ describe("Factory", () => {
       const factory = new Factory({ conveyorBeltLength: 1 });
 
       // TODO
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
+      factory.resolveOneStep();
     });
   });
 });

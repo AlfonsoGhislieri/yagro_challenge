@@ -16,12 +16,16 @@ export class Factory {
       new workerClass(),
       new workerClass(),
     ]);
+    this._droppedItems = new Object();
   }
 
   resolveOneStep = () => {
     const conveyorBelt = this._conveyorBelt;
 
     const lastItem = conveyorBelt.moveBeltForward();
+    if (lastItem !== FactoryItem.EMPTY_SPACE) {
+      this._droppedItems[lastItem] = (this._droppedItems[lastItem] || 0) + 1;
+    }
 
     conveyorBelt._slots.forEach((item, index) => {
       const [worker1, worker2] = this._workerPairs[index];
