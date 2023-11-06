@@ -6,6 +6,11 @@
 
 `npm install`
 
+## Testing
+
+To view tests and code coverage:
+`npm test`
+
 ## Running the simulation
 
 `node main.js`
