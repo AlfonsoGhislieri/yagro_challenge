@@ -9,7 +9,7 @@ describe("Worker", () => {
 
       expect(worker._status).to.equal(WorkerStatus.WORKING);
       expect(worker._inventory).to.deep.equal([]);
-      expect(worker._assembly_time).to.equal(0);
+      expect(worker._assemblyTime).to.equal(0);
     });
   });
 
@@ -89,7 +89,7 @@ describe("Worker", () => {
 
       expect(worker._inventory.length).to.equal(2);
       expect(worker._status).to.equal(WorkerStatus.ASSEMBLING);
-      expect(worker._assembly_time).to.equal(
+      expect(worker._assemblyTime).to.equal(
         FactoryItem.ASSEMBLED_PRODUCT.assemblyTime
       );
     });
@@ -106,7 +106,7 @@ describe("Worker", () => {
       it(`Assembles item with timer of ${timer} and changes status to ${expectedStatus}`, () => {
         const worker = new Worker();
         worker._status = WorkerStatus.ASSEMBLING;
-        worker._assembly_time = timer;
+        worker._assemblyTime = timer;
         worker.assembleItem();
 
         expect(worker._status).to.equal(expectedStatus);
@@ -125,7 +125,7 @@ describe("Worker", () => {
 
       expect(worker._status).to.equal(WorkerStatus.WORKING);
       expect(worker._inventory).to.deep.equal([]);
-      expect(worker._assembly_time).to.equal(0);
+      expect(worker._assemblyTime).to.equal(0);
     });
   });
 });

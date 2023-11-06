@@ -1,25 +1,21 @@
 import { WorkerStatus, FactoryItem } from "./utils/utility.js";
 
-const requiredComponents = FactoryItem.ASSEMBLED_PRODUCT.requiredComponents;
-const assemblyTime = FactoryItem.ASSEMBLED_PRODUCT.assemblyTime;
+const REQUIRED_COMPONENTS = FactoryItem.ASSEMBLED_PRODUCT.requiredComponents;
+const ASSEMBLY_TIME = FactoryItem.ASSEMBLED_PRODUCT.assemblyTime;
 
 export class Worker {
   constructor(inventoryCapacity = 2) {
     this._status = WorkerStatus.WORKING;
     this._inventory = [];
-    this._assembly_time = 0;
+    this._assemblyTime = 0;
     this._inventoryCapacity = inventoryCapacity;
   }
 
   isItemNeeded = (item) => {
-    // Checks if item is valid and worker doesn't already have it
-    if (
-      requiredComponents.includes(item.name) &&
-      !this._inventory.includes(item)
-    ) {
-      return true;
-    }
-    return false;
+    // Checks if the item is valid and not already in the inventory
+    return (
+      REQUIRED_COMPONENTS.includes(item.name) && !this._inventory.includes(item)
+    );
   };
 
   isInventoryFull = () => {
@@ -35,7 +31,7 @@ export class Worker {
     this._inventory.push(item);
 
     // Check if all required components are in the inventory
-    const hasAllComponents = requiredComponents.every((componentName) =>
+    const hasAllComponents = REQUIRED_COMPONENTS.every((componentName) =>
       this._inventory.some(
         (inventoryItem) => inventoryItem.name === componentName
       )
@@ -43,15 +39,15 @@ export class Worker {
 
     if (hasAllComponents) {
       this._status = WorkerStatus.ASSEMBLING;
-      this._assembly_time = FactoryItem.ASSEMBLED_PRODUCT.assemblyTime;
+      this._assemblyTime = ASSEMBLY_TIME;
     }
   };
 
   assembleItem = () => {
     // reduces assembly time by 1 unit of time, if 0 worker gets assembled product
-    this._assembly_time -= 1;
+    this._assemblyTime -= 1;
 
-    if (this._assembly_time === 0) {
+    if (this._assemblyTime === 0) {
       this._inventory = [];
       this._inventory.push(FactoryItem.ASSEMBLED_PRODUCT);
       this._status = WorkerStatus.READY_TO_PLACE;

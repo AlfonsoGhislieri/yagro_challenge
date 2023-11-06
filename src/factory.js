@@ -2,13 +2,13 @@ import { ConveyorBelt } from "./conveyorBelt.js";
 import { FactoryItem, WorkerStatus } from "./utils/utility.js";
 import { Worker } from "./worker.js";
 
-const defaultBeltLength = 3;
+const DEFAULT_BELT_LENGTH = 3;
 
 export class Factory {
   constructor({
     conveyorBeltClass = ConveyorBelt,
     workerClass = Worker,
-    conveyorBeltLength = defaultBeltLength,
+    conveyorBeltLength = DEFAULT_BELT_LENGTH,
   } = {}) {
     this._conveyorBelt = new conveyorBeltClass(conveyorBeltLength);
     // Creates 2D array to populate each slot for the conveyorBelt
