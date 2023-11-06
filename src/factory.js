@@ -3,19 +3,20 @@ import { FactoryItem, WorkerStatus } from "./utils/utility.js";
 import { Worker } from "./worker.js";
 
 const DEFAULT_BELT_LENGTH = 3;
+const DEFAULT_WORKER_PAIRS_PER_SLOT = 2;
 
 export class Factory {
   constructor({
     conveyorBeltClass = ConveyorBelt,
     workerClass = Worker,
     conveyorBeltLength = DEFAULT_BELT_LENGTH,
+    workerPairsPerSlot = DEFAULT_WORKER_PAIRS_PER_SLOT,
   } = {}) {
     this._conveyorBelt = new conveyorBeltClass(conveyorBeltLength);
     // Creates 2D array to populate each slot for the conveyorBelt
-    this._workerPairs = Array.from({ length: conveyorBeltLength }, () => [
-      new workerClass(),
-      new workerClass(),
-    ]);
+    this._workerPairs = Array.from({ length: conveyorBeltLength }, () =>
+      Array.from({ length: workerPairsPerSlot }, () => new workerClass())
+    );
     this._droppedItems = new Object();
   }
 
